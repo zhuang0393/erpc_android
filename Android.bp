@@ -1,0 +1,89 @@
+cc_library_headers {
+    name: "liberpc-headers",
+    vendor: true,
+    recovery_available: true,
+    local_include_dirs: [
+        "erpc_c/config",
+        "erpc_c/infra",
+        "erpc_c/port",
+        "erpc_c/setup",
+        "erpc_c/transports",
+    ],
+    export_include_dirs: [
+        "erpc_c/config",
+        "erpc_c/infra",
+        "erpc_c/port",
+        "erpc_c/setup",
+        "erpc_c/transports",
+    ],
+}
+
+cc_defaults {
+    name: "erpc-defaults",
+    vendor: true,
+    recovery_available: true,
+    header_libs: ["liberpc-headers"],
+    export_header_lib_headers: ["liberpc-headers"],
+}
+
+cc_library_shared {
+    name: "liberpc",
+    defaults: ["erpc-defaults"],
+    vendor: true,
+    recovery_available: true,
+    srcs: [
+        "erpc_c/infra/*.cpp",
+        "erpc_c/port/*.cpp",
+        "erpc_c/setup/*.cpp",
+        "erpc_c/transports/*.cpp",
+    ],
+
+    shared_libs: [
+        "libcutils",
+        "libutils",
+    ],
+}
+
+cc_binary {
+    name: "hw_server",
+    vendor: true,
+    srcs: [
+        "test/test_helloworld_server.cpp",
+        "test/helloworld_server.cpp",
+        "test/helloworld_interface.cpp",
+        "test/c_helloworld_server.cpp",
+    ],
+
+    local_include_dirs: [
+        "test/",
+    ],
+
+    shared_libs: [
+        "libcutils",
+        "libutils",
+        "liberpc",
+    ],
+
+}
+
+cc_binary {
+    name: "hw_client",
+    vendor: true,
+    srcs: [
+        "test/test_helloworld_client.cpp",
+        "test/helloworld_client.cpp",
+        "test/helloworld_interface.cpp",
+        "test/c_helloworld_client.cpp",
+    ],
+
+    local_include_dirs: [
+        "test/",
+    ],
+
+    shared_libs: [
+        "libcutils",
+        "libutils",
+        "liberpc",
+    ],
+
+}

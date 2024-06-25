@@ -1,0 +1,5 @@
+program helloworld
+
+interface helloworld {
+    hello(binary txInput) -> binary,
+}
